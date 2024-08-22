@@ -1,6 +1,7 @@
 from utils.scraper import start_driver, get_element_details
 from selenium_driverless.types.by import By
 from bs4 import BeautifulSoup
+import os
 import asyncio
 
 
@@ -20,7 +21,10 @@ def write_queries(file_path, queries):
 
 
 def get_tech_queries():
-    return read_queries("utils/queries/tech.csv")
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    current_dir_abspath = os.path.abspath(current_dir)
+    queries_dir = os.path.join(current_dir_abspath, "utils/queries")
+    return read_queries(f"{queries_dir}/tech.csv")
 
 
 async def get_urls(query, content):
@@ -42,8 +46,7 @@ async def get_urls(query, content):
 
 
 async def get_communities(driver, query):
-    # url = f"https://www.skool.com/discovery?q={query}"
-    url = "https://www.skool.com/discovery?p=34&q=business"
+    url = f"https://www.skool.com/discovery?q={query}"
     await driver.get(url, wait_load=True)
     await driver.sleep(0.5)
     await driver.wait_for_cdp("Page.domContentEventFired", timeout=15)

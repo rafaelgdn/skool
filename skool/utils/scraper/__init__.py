@@ -15,12 +15,12 @@ def setup_temp_profile():
 
     profile_name = "Profile 2"
 
-    # if os.path.exists(temp_dir_abspath):
-    #     try:
-    #         shutil.rmtree(os.path.dirname(temp_dir_abspath))
-    #         print("Temp folder successfully removed.")
-    #     except Exception as e:
-    #         print(f"Error removing temp folder: {e}")
+    if os.path.exists(temp_dir_abspath):
+        try:
+            shutil.rmtree(temp_dir_abspath)
+            print("Temp folder successfully removed.")
+        except Exception as e:
+            print(f"Error removing temp folder: {e}")
 
     os.makedirs(temp_dir_abspath, exist_ok=True)
 
