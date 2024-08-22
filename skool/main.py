@@ -4,6 +4,9 @@ from bs4 import BeautifulSoup
 import os
 import asyncio
 
+current_dir = os.path.dirname(os.path.abspath(__file__))
+current_dir_abspath = os.path.abspath(current_dir)
+queries_dir = os.path.join(current_dir_abspath, "utils/queries")
 
 valid_tech_queries = []
 invalid_tech_queries = []
@@ -21,9 +24,6 @@ def write_queries(file_path, queries):
 
 
 def get_tech_queries():
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    current_dir_abspath = os.path.abspath(current_dir)
-    queries_dir = os.path.join(current_dir_abspath, "utils/queries")
     return read_queries(f"{queries_dir}/tech.csv")
 
 
@@ -41,7 +41,8 @@ async def get_urls(query, content):
     if not hrefs:
         return []
 
-    urls = [f"https://www.skool.com{href}/about" for href in hrefs]
+    urls = [f"https://www.skool.com{a['href']}/about" for a in hrefs if "href" in a.attrs]
+
     return urls
 
 
@@ -53,19 +54,25 @@ async def get_communities(driver, query):
 
     urls = []
     urls.extend(await get_urls(query, await driver.page_source))
-    next_button = await driver.find_element(By.XPATH, "//button[.//span[contains(text(), 'Next')]]")
-    next_button_details = await get_element_details(driver, next_button)
 
-    while next_button and not next_button_details.get("disabled"):
-        await driver.sleep(2)
-        await next_button.click()
-        await driver.sleep(0.5)
-        await driver.wait_for_cdp("Page.domContentEventFired", timeout=15)
-        urls.extend(await get_urls(query, await driver.page_source))
-        next_button = await driver.find_element(By.XPATH, "//button[.//span[contains(text(), 'Next')]]")
-        next_button_details = await get_element_details(driver, next_button)
+    while True:
+        try:
+            next_button = await driver.find_element(By.XPATH, "//button[.//span[contains(text(), 'Next')]]")
+            next_button_details = await get_element_details(driver, next_button)
 
-    await driver.sleep(99999)
+            if "disabled" in next_button_details or next_button_details.get("disabled") == "":
+                print(f"No more pages for query: {query}")
+                break
+
+            await driver.sleep(0.5)
+            await next_button.click()
+            await driver.sleep(2)
+
+            urls.extend(await get_urls(query, await driver.page_source))
+        except Exception as e:
+            print(f"Erro ao navegar para a próxima página: {e}")
+            break
+
     return urls
 
 
@@ -82,8 +89,8 @@ async def main():
                 f.write("\n".join(urls))
 
     await driver.quit()
-    write_queries("utils/queries/valid_tech.csv", valid_tech_queries)
-    write_queries("utils/queries/invalid_tech.csv", invalid_tech_queries)
+    write_queries(f"{queries_dir}/valid_tech.csv", valid_tech_queries)
+    write_queries(f"{queries_dir}/invalid_tech.csv", invalid_tech_queries)
     print(f"Arquivo tech.py atualizado. Queries removidas: {len(queries) - len(valid_tech_queries)}")
 
 
