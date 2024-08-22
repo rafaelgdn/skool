@@ -4,25 +4,28 @@ import shutil
 
 
 def setup_temp_profile():
-    root_dir = os.path.dirname(os.path.abspath(__file__))
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    current_dir_abspath = os.path.abspath(current_dir)
+    root_dir = os.path.join(current_dir_abspath, "..", "..")
+    root_dir_abspath = os.path.abspath(root_dir)
 
-    profiles_dir = os.path.join(root_dir, "utils", "profiles")
-    temp_dir = os.path.join(root_dir, "temp")
+    profiles_dir = os.path.join(root_dir_abspath, "utils", "profiles")
+    temp_dir = os.path.join(root_dir_abspath, "profiles_temp")
     temp_dir_abspath = os.path.abspath(temp_dir)
 
     profile_name = "Profile 2"
 
-    if os.path.exists(temp_dir_abspath):
-        try:
-            shutil.rmtree(os.path.dirname(temp_dir_abspath))
-            print("Temp folder successfully removed.")
-        except Exception as e:
-            print(f"Error removing temp folder: {e}")
+    # if os.path.exists(temp_dir_abspath):
+    #     try:
+    #         shutil.rmtree(os.path.dirname(temp_dir_abspath))
+    #         print("Temp folder successfully removed.")
+    #     except Exception as e:
+    #         print(f"Error removing temp folder: {e}")
 
-    os.makedirs(temp_dir, exist_ok=True)
+    os.makedirs(temp_dir_abspath, exist_ok=True)
 
     source_profile = os.path.join(profiles_dir, profile_name)
-    dest_profile = os.path.join(temp_dir, profile_name)
+    dest_profile = os.path.join(temp_dir_abspath, profile_name)
 
     if os.path.exists(dest_profile):
         shutil.rmtree(dest_profile)
