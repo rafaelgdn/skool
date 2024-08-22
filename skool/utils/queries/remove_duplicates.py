@@ -1,5 +1,6 @@
-import csv
 from collections import OrderedDict
+import os
+import csv
 
 
 def remove_duplicates(input_file, output_file):
@@ -28,6 +29,8 @@ def remove_duplicates(input_file, output_file):
     print(f"Arquivo CSV sem duplicatas salvo como '{output_file}'")
 
 
-input_file = "entrada.csv"
-output_file = "saida_sem_duplicatas.csv"
+current_dir = os.path.dirname(os.path.abspath(__file__))
+current_dir_abspath = os.path.abspath(current_dir)
+input_file = os.path.join(current_dir_abspath, "general.csv")
+output_file = os.path.join(current_dir_abspath, "unique_general.csv")
 remove_duplicates(input_file, output_file)
