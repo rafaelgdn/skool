@@ -64,24 +64,24 @@ async def start_driver():
 async def get_element_details(driver, element):
     attributes = await driver.execute_script(
         """
-          var items = {};
-          for (index = 0; index < arguments[0].attributes.length; ++index) {
-              items[arguments[0].attributes[index].name] = arguments[0].attributes[index].value
-          };
-          return items;
+            var items = {};
+            for (index = 0; index < arguments[0].attributes.length; ++index) {
+                items[arguments[0].attributes[index].name] = arguments[0].attributes[index].value
+            };
+            return items;
         """,
         element,
     )
 
     properties = await driver.execute_script(
         """
-          var props = {};
-          var element = arguments[0];
-          props['tagName'] = element.tagName;
-          props['text'] = element.textContent;
-          props['isDisplayed'] = element.offsetParent !== null;
-          props['isEnabled'] = !element.disabled;
-          return props;
+            var props = {};
+            var element = arguments[0];
+            props['tagName'] = element.tagName;
+            props['text'] = element.textContent;
+            props['isDisplayed'] = element.offsetParent !== null;
+            props['isEnabled'] = !element.disabled;
+            return props;
         """,
         element,
     )
