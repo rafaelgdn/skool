@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "skool"
+version = "0.1.0"
+description = ""
+authors = ["rafaeldecarvalho <rafaeldecarvalho.ps@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+selenium-driverless = "^1.9.3.1"
+beautifulsoup4 = "^4.12.3"
+hrequests = {extras = ["all"], version = "^0.8.2"}
+
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
