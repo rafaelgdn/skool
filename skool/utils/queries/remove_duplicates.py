@@ -31,6 +31,6 @@ def remove_duplicates(input_file, output_file):
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 current_dir_abspath = os.path.abspath(current_dir)
-input_file = os.path.join(current_dir_abspath, "general.csv")
-output_file = os.path.join(current_dir_abspath, "unique_general.csv")
+input_file = os.path.join(current_dir_abspath, "urls2.csv")
+output_file = os.path.join(current_dir_abspath, "unique_urls2.csv")
 remove_duplicates(input_file, output_file)
