@@ -130,8 +130,8 @@ async def main():
 
         elapsed_time = time.time() - start_time
 
-        if elapsed_time < 5:
-            await driver.sleep(5 - elapsed_time)
+        if elapsed_time < 10:
+            await driver.sleep(10 - elapsed_time)
 
     await driver.quit()
 
