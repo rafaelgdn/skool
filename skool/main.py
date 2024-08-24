@@ -2,6 +2,8 @@ from utils.scraper import start_driver, get_element_details
 from selenium_driverless.types.by import By
 from bs4 import BeautifulSoup
 import os
+import time
+import random
 import asyncio
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -31,10 +33,9 @@ async def get_urls(driver, query, content):
     soup = BeautifulSoup(content, "html.parser")
     discovery_cards = soup.css.select("div[class*='DiscoveryCards']")
 
-    if not discovery_cards:
+    if not discovery_cards and "0 result for" in soup.get_text():
         invalid_tech_queries.append(query)
         print(f"No communities found for query: {query}")
-        await driver.sleep(30)
         return []
 
     hrefs = discovery_cards[0].select("a[href]")
@@ -49,12 +50,25 @@ async def get_urls(driver, query, content):
 
 async def get_communities(driver, query):
     print(f"Searching communities for query: {query}")
+    start_time = time.time()
     url = f"https://www.skool.com/discovery?q={query}"
     await driver.get(url, wait_load=True)
     await driver.sleep(2)
 
     urls = []
     urls.extend(await get_urls(driver, query, await driver.page_source))
+
+    if not urls:
+        print(f"No more pages for query: {query}")
+        elapsed_time = time.time() - start_time
+        if elapsed_time < 5:
+            remaining_time = 5 - elapsed_time
+            random_additional_time = random.uniform(0, 5)
+            total_sleep_time = remaining_time + random_additional_time
+            print(f"Total execution time for '{query}': {elapsed_time:.2f} seconds")
+            print(f"Adding sleep of {total_sleep_time:.2f} seconds")
+            await driver.sleep(remaining_time)
+        return urls
 
     while True:
         try:
@@ -81,9 +95,17 @@ async def get_communities(driver, query):
 
             urls.extend(await get_urls(driver, query, await driver.page_source))
         except Exception as e:
-            print(f"Erro ao navegar para a próxima página: {e}")
+            print(f"Error navigating to the next page: {e}")
             break
 
+    elapsed_time = time.time() - start_time
+    if elapsed_time < 5:
+        remaining_time = 5 - elapsed_time
+        random_additional_time = random.uniform(0, 5)
+        total_sleep_time = remaining_time + random_additional_time
+        print(f"Tempo total de execução para '{query}': {elapsed_time:.2f} segundos")
+        print(f"Adicionando sleep de {total_sleep_time:.2f} segundos")
+        await driver.sleep(remaining_time)
     return urls
 
 
