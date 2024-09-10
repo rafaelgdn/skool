@@ -1,2 +1,3 @@
-2024/08/21-19:23:20.665 318f Creating DB /home/rafael/.config/google-chrome/Profile 2/Sync Data/LevelDB since it was missing.
-2024/08/21-19:23:20.671 318f Reusing MANIFEST /home/rafael/.config/google-chrome/Profile 2/Sync Data/LevelDB/MANIFEST-000001
+2024/09/09-20:18:53.507 4a324 Reusing MANIFEST /home/rafael/projetos/skool/skool/profiles_temp/Profile 2/Sync Data/LevelDB/MANIFEST-000001
+2024/09/09-20:18:53.508 4a324 Recovering log #3
+2024/09/09-20:18:53.508 4a324 Reusing old log /home/rafael/projetos/skool/skool/profiles_temp/Profile 2/Sync Data/LevelDB/000003.log 

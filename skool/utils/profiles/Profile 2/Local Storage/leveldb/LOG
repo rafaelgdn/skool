@@ -1,2 +1,3 @@
-2024/08/21-19:23:20.667 4 Creating DB /home/rafael/.config/google-chrome/Profile 2/Local Storage/leveldb since it was missing.
-2024/08/21-19:23:20.674 4 Reusing MANIFEST /home/rafael/.config/google-chrome/Profile 2/Local Storage/leveldb/MANIFEST-000001
+2024/09/09-20:18:53.520 4 Reusing MANIFEST /home/rafael/projetos/skool/skool/profiles_temp/Profile 2/Local Storage/leveldb/MANIFEST-000001
+2024/09/09-20:18:53.526 4 Recovering log #3
+2024/09/09-20:18:53.527 4 Reusing old log /home/rafael/projetos/skool/skool/profiles_temp/Profile 2/Local Storage/leveldb/000003.log 

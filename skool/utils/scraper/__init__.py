@@ -42,7 +42,7 @@ async def start_driver():
     options.add_argument(f"--user-data-dir={temp_dir_abspath}")
     options.add_argument(f"--profile-directory={profile_name}")
     options.add_argument("--window-size=1920,1080")
-    options.add_argument("--headless")  # uncomment this line to run in headless mode
+    # options.add_argument("--headless")  # uncomment this line to run in headless mode
     # options.add_argument("--disable-gpu")
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--disable-software-rasterizer")
